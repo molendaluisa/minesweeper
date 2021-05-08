@@ -21,7 +21,39 @@
   </head>
   <body>
     <h3 class="title">Minesweeper</h3>
-    <div class="subtext">Mines Left: <span data-mine-count>10</span></div>
+    <div class="subtext">Mines Left: <span data-mine-count>1</span></div>
     <div class="board"></div>
+
+    <div class="modal hidden">
+      <h1>Game Rules</h1>
+      <p>
+        Use the left click button on the mouse to select a space on the grid.
+        <strong> If you hit a bomb, you lose. </strong>
+      </p>
+      <p>
+        The numbers on the board represent how many bombs are adjacent to a
+        square. For example, if a square has a "2" on it, then it means there
+        are 2 bombs next to that square. The bombs could be above, below, right
+        left, or diagonal to the square.
+      </p>
+      <p>
+        You can right click a square with the mouse to place a flag where you
+        think a bomb is. This allows you to avoid that spot.
+      </p>
+      <p>
+        <strong
+          >Avoid all the bombs and expose all the empty spaces to win
+          Minesweeper.
+        </strong>
+      </p>
+      <hr />
+      <h2>Choose a Level</h2>
+      <div class="levels">
+        <button class="game-level beginner">Beginner</button>
+        <button class="game-level intermediate">Intermediate</button>
+        <button class="game-level expert">Expert</button>
+      </div>
+    </div>
+    <div class="overlay hidden"></div>
   </body>
 </html>

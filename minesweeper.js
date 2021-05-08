@@ -45,7 +45,7 @@ export function markTile(tile) {
     tile.status = TILE_STATUSES.HIDDEN
   } else {
     tile.status = TILE_STATUSES.MARKED
-    addIcon(['fab', 'fa-font-awesome-flag'], 'marked')
+    addIcon(tile, ['fab', 'fa-font-awesome-flag'])
   }
 }
 
@@ -55,7 +55,7 @@ export function revealTile(board, tile) {
   }
   if (tile.mine) {
     tile.status = TILE_STATUSES.MINE
-    addIcon(['fas', 'fa-bomb'], 'mine')
+    addIcon(tile, ['fas', 'fa-bomb'])
     return
   }
   tile.status = TILE_STATUSES.NUMBER
@@ -122,8 +122,8 @@ function nearbyTiles(board, { x, y }) {
   return tiles
 }
 
-function addIcon(iconClasses, type) {
+function addIcon(tile, iconClasses) {
   const icon = document.createElement('i')
   icon.classList.add(...iconClasses)
-  document.querySelector(`[data-status=${type}]`).appendChild(icon)
+  tile.element.appendChild(icon)
 }

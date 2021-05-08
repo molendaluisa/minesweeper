@@ -1,5 +1,4 @@
 //Game UI
-
 import {
   TILE_STATUSES,
   createBoard,
@@ -9,42 +8,36 @@ import {
   checkLose
 } from './minesweeper.js';
 
-const BOARD_SIZE = 10
-const NUMBER_OF_MINES = 10
 
-
-const board = createBoard(BOARD_SIZE, NUMBER_OF_MINES);
 const boardElement = document.querySelector('.board');
 const minesLeftText = document.querySelector('[data-mine-count]')
 const messageText = document.querySelector('.subtext')
+const modal = document.querySelector('.modal');
+const overlay = document.querySelector('.overlay');
+const btnBeginner = document.querySelector('.beginner');
+const btnIntermediate = document.querySelector('.intermediate');
+const btnExpert = document.querySelector('.expert');
 
-board.forEach(row => {
-  row.forEach(tile => {
-    boardElement.append(tile.element)
-    tile.element.addEventListener('click', () => {
-      revealTile(board, tile)
-      checkEndGame()
-    })
-    tile.element.addEventListener('contextmenu', e => {
-      e.preventDefault()
-      markTile(tile)
-      listMinesLeft()
-    })
-  })
-})
+const openModal = function () {
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
 
-boardElement.style.setProperty("--size", BOARD_SIZE)
-minesLeftText.textContent = NUMBER_OF_MINES
+const closeModal = function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
 
-function listMinesLeft() {
+
+function listMinesLeft(board, qtyOfMines) {
   const markedTilesCount = board.reduce((count, row) => {
     return count + row.filter(tile => tile.status === TILE_STATUSES.MARKED).length
   }, 0)
 
-  minesLeftText.textContent = NUMBER_OF_MINES - markedTilesCount
+  minesLeftText.textContent = qtyOfMines - markedTilesCount
 }
 
-function checkEndGame() {
+function checkEndGame(board) {
   const win = checkWin(board)
   const lose = checkLose(board)
 
@@ -59,9 +52,13 @@ function checkEndGame() {
   if (lose) {
     messageText.textContent = 'You Lose'
     board.forEach(row => {
-      board.forEach(tile => {
-        if (tile.status === TILE_STATUSES.MARKED) markTile(tile)
-        if (tile.mine) revealTile(board, tile)
+      row.forEach(tile => {
+        if (tile.status === TILE_STATUSES.MARKED) {
+          markTile(tile)
+        }
+        if (tile.mine) {
+          revealTile(board, tile)
+        }
       })
     })
   }
@@ -70,3 +67,46 @@ function checkEndGame() {
 function stopProp(e) {
   e.stopImmediatePropagation()
 }
+
+
+function createBeginnersBoard() {
+  const boardSize = 3
+  const qtyOfMines = 2
+
+  startGame(boardSize, qtyOfMines)
+
+}
+
+
+function startGame(boardSize, qtyOfMines) {
+  const board = createBoard(boardSize, qtyOfMines);
+
+  board.forEach(row => {
+    row.forEach(tile => {
+      boardElement.append(tile.element)
+      tile.element.addEventListener('click', () => {
+        revealTile(board, tile)
+        checkEndGame(board, tile)
+      })
+      tile.element.addEventListener('contextmenu', e => {
+        e.preventDefault()
+        markTile(tile)
+        listMinesLeft(board, qtyOfMines)
+      })
+    })
+  })
+
+  boardElement.style.setProperty("--size", boardSize)
+  minesLeftText.textContent = qtyOfMines
+  closeModal()
+}
+
+// Set event listerner for Game Start buttons
+btnBeginner.addEventListener('click', () => startGame(10, 10));
+btnIntermediate.addEventListener('click', () => startGame(15, 40));
+btnExpert.addEventListener('click', () => startGame(20, 99));
+
+// Open Game Start modal
+openModal();
+
+
