@@ -22,12 +22,15 @@ body {
 
 .title {
   margin: 20px;
+  letter-spacing: 3px;
+  font-family: "Anton", sans-serif;
 }
 
 .subtext {
   color: #ccc;
   font-size: 1.5rem;
   margin-bottom: 10px;
+  font-family: "Source Code Pro", monospace;
 }
 
 .board {
@@ -37,6 +40,7 @@ body {
   grid-template-rows: repeat(var(--size), 60px);
   gap: 4px;
   background-color: #777;
+  font-family: "Source Code Pro", monospace;
 }
 
 .board > * {
@@ -65,4 +69,8 @@ body {
 
 .board > [data-status="marked"] {
   background-color: yellow;
+}
+
+.fa-font-awesome-flag {
+  color: #333;
 }

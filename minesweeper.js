@@ -7,7 +7,6 @@ export const TILE_STATUSES = {
   MARKED: 'marked',
 }
 
-
 export function createBoard(boardSize, numberOfMines) {
   const board = []
   const minePositions = getMinePositions(boardSize, numberOfMines)
@@ -46,6 +45,7 @@ export function markTile(tile) {
     tile.status = TILE_STATUSES.HIDDEN
   } else {
     tile.status = TILE_STATUSES.MARKED
+    addIcon(['fab', 'fa-font-awesome-flag'], 'marked')
   }
 }
 
@@ -55,6 +55,7 @@ export function revealTile(board, tile) {
   }
   if (tile.mine) {
     tile.status = TILE_STATUSES.MINE
+    addIcon(['fas', 'fa-bomb'], 'mine')
     return
   }
   tile.status = TILE_STATUSES.NUMBER
@@ -119,4 +120,10 @@ function nearbyTiles(board, { x, y }) {
   }
 
   return tiles
+}
+
+function addIcon(iconClasses, type) {
+  const icon = document.createElement('i')
+  icon.classList.add(...iconClasses)
+  document.querySelector(`[data-status=${type}]`).appendChild(icon)
 }
