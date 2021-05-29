@@ -17,6 +17,7 @@ const overlay = document.querySelector('.overlay');
 const btnBeginner = document.querySelector('.beginner');
 const btnIntermediate = document.querySelector('.intermediate');
 const btnExpert = document.querySelector('.expert');
+const btnRestart = document.querySelector('.restart');
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -26,6 +27,10 @@ const openModal = function () {
 const closeModal = function () {
   modal.classList.add('hidden');
   overlay.classList.add('hidden');
+};
+
+const clearGame = function () {
+  location.reload();
 };
 
 
@@ -68,16 +73,6 @@ function stopProp(e) {
   e.stopImmediatePropagation()
 }
 
-
-function createBeginnersBoard() {
-  const boardSize = 3
-  const qtyOfMines = 2
-
-  startGame(boardSize, qtyOfMines)
-
-}
-
-
 function startGame(boardSize, qtyOfMines) {
   const board = createBoard(boardSize, qtyOfMines);
 
@@ -102,6 +97,7 @@ function startGame(boardSize, qtyOfMines) {
 }
 
 // Set event listerner for Game Start buttons
+btnRestart.addEventListener('click', () => clearGame())
 btnBeginner.addEventListener('click', () => startGame(10, 10));
 btnIntermediate.addEventListener('click', () => startGame(15, 40));
 btnExpert.addEventListener('click', () => startGame(20, 99));
